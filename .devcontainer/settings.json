@@ -1,0 +1,21 @@
+{
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "on",
+        "strings": "on"
+    },
+    "spellright.language": [],
+    "spellright.documentTypes": [
+        "latex"
+    ],
+    "terminal.integrated.profile.linux": {
+        "bash (login)": {
+            "path": "/bin/bash",
+            "args": [
+                "-l"
+            ]
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "bash",
+    // "http.proxy": "http://192.168.2.1:28080",
+}

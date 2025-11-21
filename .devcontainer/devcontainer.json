@@ -1,7 +1,7 @@
 {
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "pg_mooncake_dev_service",
+    "workspaceFolder": "/workspaces/pg_mooncake",
     "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
     "customizations": {
         "vscode": {
@@ -11,5 +11,6 @@
                 "rust-lang.rust-analyzer"
             ]
         }
-    }
+    },
+    "shutdownAction": "none"
 }
