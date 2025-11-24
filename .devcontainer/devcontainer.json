@@ -1,14 +1,20 @@
 {
     "dockerComposeFile": "docker-compose.yml",
     "service": "pg_mooncake_dev_service",
-    "workspaceFolder": "/workspaces/pg_mooncake",
+    "workspaceFolder": "/opt/transwarp/pg_mooncake",
     "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
     "customizations": {
         "vscode": {
             "extensions": [
                 "eamodio.gitlens",
                 "ms-vscode.cpptools",
-                "rust-lang.rust-analyzer"
+                "rust-lang.rust-analyzer",
+                "foxundermoon.shell-format",
+                "redhat.vscode-yaml",
+                "ms-azuretools.vscode-docker",
+                "EditorConfig.EditorConfig",
+                "codezombiech.gitignore",
+                "GitHub.copilot",
             ]
         }
     },

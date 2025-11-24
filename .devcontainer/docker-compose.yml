@@ -15,7 +15,9 @@ services:
     privileged: true
     volumes:
       - ..:/opt/transwarp/pg_mooncake:cached
-      - ${LOCAL_CARGO}:/opt/cargo
+      - ${LOCAL_CARGO_GIT}:/opt/cargo/git
+      - ${LOCAL_CARGO_REGISTRY}:/opt/cargo/registry
+      - ${LOCAL_RUSTUP_TOOLCHAINS}:/opt/rustup/toolchains
     working_dir: /opt/transwarp/pg_mooncake
     network_mode: host 
     tty: true

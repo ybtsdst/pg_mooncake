@@ -15,6 +15,8 @@ ENV TZ=Asia/Shanghai
 ENV CARGO_HOME=/opt/cargo
 ENV RUSTUP_HOME=/opt/rustup
 ENV PATH=${CARGO_HOME}/bin:${PATH}
+ENV RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup    
+ENV RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup 
 
 RUN \
     # prepare apt
@@ -28,16 +30,16 @@ RUN \
     # basics
     PKGS="software-properties-common" && \
     apt-get install -y ${PKGS} && \
-    add-apt-repository -y ppa:ubuntu-toolchain-r/ppa && \
-    apt-get update -y && \
     PKGS="vim sudo locales git curl unzip wget zip iputils-ping iproute2 tzdata tree jq bear" && \
     PKGS="${PKGS} gdb net-tools telnet pkg-config linux-tools-common linux-tools-generic" && \
+    # pg dev for pgrx
+    PKGS="${PKGS} flex bison libreadline-dev zlib1g-dev libssl-dev libxml2-dev libxslt1-dev libicu-dev \
+    libldap2-dev liblz4-dev libzstd-dev libnuma-dev liburing-dev uuid-dev libkrb5-dev libsystemd-dev \
+    libpam0g-dev libselinux1-dev llvm-15-dev clang-15 python3-dev systemtap-sdt-dev libcurl4-openssl-dev \
+    gettext tcl tcl-dev libperl-dev libipc-run-perl libtest-simple-perl" && \
     apt-get install -y ${PKGS} && \
-    locale-gen en_US.UTF-8 && \
-    echo ${TZ} > /etc/timezone && \
-    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    dpkg-reconfigure tzdata && \
-    apt install -y \
+    # pg_mooncake deps
+    apt-get install -y \
       bison \
       cmake \
       flex \
@@ -46,6 +48,10 @@ RUN \
       mold \
       ninja-build \
       proxychains4 && \
+    locale-gen en_US.UTF-8 && \
+    echo ${TZ} > /etc/timezone && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    dpkg-reconfigure tzdata && \
     rm -rf /var/lib/apt/lists/* && \
     ln -sf /usr/bin/mold /usr/bin/ld && \
     apt-get autoclean
@@ -80,14 +86,10 @@ RUN \
 
 USER $DEV_USERNAME
 
-ENV RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup    
-ENV RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup 
-
 ADD config.toml ${CARGO_HOME}/config.toml
 
 # rust
-# RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
-#     | sh -s -- -y --default-toolchain stable
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 
 
 # RUN cargo install --locked cargo-pgrx@0.16.1 \
 #  && cargo pgrx init

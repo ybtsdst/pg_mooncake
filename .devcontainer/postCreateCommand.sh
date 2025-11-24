@@ -1,6 +1,12 @@
 #!/bin/bash
 
 function misc {
+  cargo install --locked cargo-pgrx@0.16.1 && cargo pgrx init --pg18 download
+
+  pushd $HOME
+  git clone https://github.com/microsoft/vcpkg.git && sh ./vcpkg/scripts/bootstrap.sh -disableMetrics
+  popd
+
   cat >> ~/.psqlrc <<EOF
 \set PROMPT1 '%/ (pid: %p) %R%# '
 \set PROMPT2 '  '
@@ -33,7 +39,7 @@ function main {
   # replace container settings.json with our project settings.json
   pushd $HOME/.vscode-server/data/Machine
   rm -rf settings.json
-  ln -s /opt/transwarp/doris/.devcontainer/settings.json settings.json
+  ln -s /opt/transwarp/pg_mooncake/.devcontainer/settings.json settings.json
   popd
 
   misc $@
